@@ -1,0 +1,47 @@
+ArvorePedidos
+
+class ArvorePedidos {
+    private NoArvore raiz;
+
+    public void adicionarPedido(regpro pedido) {
+        raiz = adicionarPedidoRec(raiz, pedido);
+    }
+
+    private NoArvore adicionarPedidoRec(NoArvore no, regpro pedido) {
+        if (no == null) {
+            return new NoArvore(pedido);
+        }
+
+        if (pedido.getCodigo().compareTo(no.pedido.getCodigo()) < 0) {
+            no.esquerda = adicionarPedidoRec(no.esquerda, pedido);
+        } else if (pedido.getCodigo().compareTo(no.pedido.getCodigo()) > 0) {
+            no.direita = adicionarPedidoRec(no.direita, pedido);
+        }
+
+        return no;
+    }
+
+    public void mostrarPedidos() {
+        inOrder(raiz);
+    }
+
+    private void inOrder(NoArvore no) {
+        if (no != null) {
+            inOrder(no.esquerda);
+            System.out.println("\nCodigo: " + no.pedido.getCodigo());
+            System.out.println("Data:   " + no.pedido.getdata());
+            System.out.println("País:   " + no.pedido.getpais());
+            inOrder(no.direita);
+        }
+    }
+
+    private static class NoArvore {
+        regpro pedido;
+        NoArvore esquerda, direita;
+
+        public NoArvore(regpro pedido) {
+            this.pedido = pedido;
+            this.esquerda = this.direita = null;
+        }
+    }
+}

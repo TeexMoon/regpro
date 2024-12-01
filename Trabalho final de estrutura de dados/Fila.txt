@@ -1,0 +1,53 @@
+Fila
+
+//Everson Padilha Ferreira 01608356
+
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.io.File;
+import java.util.Scanner;
+
+public class Fila {
+
+    public static void main(String[] args) {
+        Queue<regpro> listaDePedidos = new LinkedList<>();
+        leitor("Pedido.txt", listaDePedidos);
+
+        for (regpro pedido : listaDePedidos) {
+            System.out.println("\nCodigo: " + pedido.getCodigo());
+            System.out.println("Data:   " + pedido.getdata());
+            System.out.println("País:   " + pedido.getpais());
+        }
+
+        for (regpro pedido : listaDePedidos) {
+
+            System.out.println("\nCodigo: " + pedido.getCodigo());
+            System.out.println("Data:   " + pedido.getdata());
+            System.out.println("País:   " + pedido.getpais());
+        }
+    }
+
+    public static void leitor(String caminhoArquivo, Queue<regpro> lista) {
+        try {
+            File arquivo = new File(caminhoArquivo);
+            Scanner scanner = new Scanner(arquivo);
+
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+
+                String[] dados = linha.split(";");
+
+                if (dados.length >= 10) {
+                    regpro pedido = new regpro(dados[0], dados[3], dados[9]);
+
+                    lista.add(pedido);
+                }
+            }
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
